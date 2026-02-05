@@ -1,0 +1,96 @@
+Step 1: Think in terms of a “window”
+
+Imagine a window sliding over the array.
+
+The window contains a contiguous part of the array.
+
+This window will “grow” or “shrink” as we move.
+
+We’ll track:
+
+Left edge of the window → left pointer
+
+Right edge of the window → right pointer
+
+How many zeros are inside this window → zero_count
+
+Maximum length of window with ≤ k zeros → max_len
+
+Step 2: Expand the window
+
+Start with the window at the first element (left = 0, right = 0).
+
+Move the right pointer forward one by one, including more elements in the window.
+
+Each time you see a zero, count it.
+
+Example:
+
+arr = [1, 0, 1, 0, 1]
+k = 2
+
+
+Window starts at index 0 → [1] → zeros = 0 → length = 1 → max_len = 1
+
+Move right → index 1 → [1, 0] → zeros = 1 → length = 2 → max_len = 2
+
+Move right → index 2 → [1, 0, 1] → zeros = 1 → length = 3 → max_len = 3
+
+Move right → index 3 → [1, 0, 1, 0] → zeros = 2 → length = 4 → max_len = 4
+
+Move right → index 4 → [1, 0, 1, 0, 1] → zeros = 2 → length = 5 → max_len = 5
+
+✅ Window can include at most k zeros, because we can flip them.
+
+Step 3: Shrink the window if too many zeros
+
+If zero_count exceeds k, we move the left pointer forward.
+
+Each time the left pointer passes a zero, reduce zero_count by 1.
+
+Keep moving left until zero_count ≤ k again.
+
+Example (continuing):
+
+arr = [1, 0, 1, 0, 1, 0]
+k = 2
+
+
+Current window [1,0,1,0,1,0] → zeros = 3 → exceeds k = 2
+
+Move left → remove 1 → window [0,1,0,1,0] → zeros = 3
+
+Move left → remove 0 → window [1,0,1,0] → zeros = 2 → now ok
+
+✅ Shrinking keeps the window valid, i.e., zeros ≤ k.
+
+Step 4: Keep track of maximum
+
+At each step, check window length:
+
+current_length = right - left + 1
+
+
+If it’s bigger than max_len, update max_len.
+
+After scanning the whole array, max_len is the answer.
+
+Step 5: Visual Summary
+
+Window expands → include next element
+
+Count zeros → if ≤ k, continue
+
+Shrink left if zeros > k → maintain valid window
+
+Update max_len → track largest valid window
+
+Key Techniques Used
+
+Sliding Window → Efficiently examine all subarrays
+
+Two Pointers → Left and right edges of the window
+
+Counting → Keep track of zeros in the window
+
+Comparison / Tracking Max → Store largest length
